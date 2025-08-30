@@ -1,0 +1,19 @@
+name: Evori
+version: '2025.0.0.1'
+main: com.ruineko.evori.EvoriServer
+api-version: '1.21'
+commands:
+  about:
+    description: About the plugin
+  fly:
+    description: Toggle flight
+  kaboom:
+    description: Launch all players into the sky
+  nick:
+    description: Hide your real name
+  staffchat:
+    aliases: [ sc ]
+    description: Staff chat
+  node:
+    aliases: [ whereami ]
+    description: Show the ID of the node you are currently on
