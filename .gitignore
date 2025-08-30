@@ -4,3 +4,9 @@
 /proxy/build/classes/kotlin/main/
 /server/build/
 /server/build/classes/kotlin/main/
+
+# Jetbrains
+.idea/
+
+# Plugin output
+/output/
