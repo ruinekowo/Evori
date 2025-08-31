@@ -1,9 +1,9 @@
 package com.ruineko.evori.proxy
 
 import com.ruineko.evori.common.AckMessage
-import com.ruineko.evori.common.utils.PlaceholderFormatter
 import com.ruineko.evori.common.RedisManager
 import com.ruineko.evori.common.RegisterMessage
+import com.ruineko.evori.common.UnregisterMessage
 import com.ruineko.evori.common.extensions.int
 import com.ruineko.evori.common.extensions.string
 import com.ruineko.evori.proxy.listeners.ServerConnectListener
@@ -25,7 +25,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import javax.inject.Inject
 
-@Plugin(id = "evori-proxy", name = "EvoriProxy", version = "1.0.0")
+@Plugin(id = "evori-proxy", name = "EvoriProxy", version = "2025.0.0.1")
 class EvoriProxy @Inject constructor(
     private val proxyServer: ProxyServer,
     private val logger: Logger,
@@ -45,24 +45,44 @@ class EvoriProxy @Inject constructor(
         redis.subscribe("node:register") { raw ->
             val payload = Json.decodeFromString<RegisterMessage>(raw)
 
-            val nodeId = PlaceholderFormatter.randomId(6)
-            val key = "node:$nodeId"
+            val index = redis.pool.resource.incr("node:index:${payload.type}")
+            val indexString = index.toString().padStart(2, '0')
+            val serverName = "${payload.type}$indexString"
 
-            redis.hset(key, mapOf(
-                "id" to nodeId,
-                "ip" to payload.ip,
-                "port" to payload.port.toString(),
-                "registeredAt" to System.currentTimeMillis().toString()
-            ))
+            redis.hset(
+                "node:$serverName", mapOf(
+                    "serverName" to serverName,
+                    "ip" to payload.ip,
+                    "port" to payload.port.toString(),
+                    "type" to payload.type,
+                    "mode" to payload.mode,
+                    "registeredAt" to System.currentTimeMillis().toString()
+                )
+            )
 
-            val serverInfo = ServerInfo(nodeId, InetSocketAddress(payload.ip, payload.port))
+            val serverInfo = ServerInfo(serverName, InetSocketAddress(payload.ip, payload.port))
             val registered = proxyServer.registerServer(serverInfo)
             availableNode.add(registered)
 
-            val ack = AckMessage(nodeId, payload.ip, payload.port)
+            val ack = AckMessage(serverName, payload.ip, payload.port)
             redis.publish("node:ack", Json.encodeToString(ack))
 
-            logger.info("Registered node $nodeId at ${payload.ip}:${payload.port}")
+            logger.info("Registered server node $serverName mode ${payload.mode} at ${payload.ip}:${payload.port}")
+        }
+
+        redis.subscribe("node:unregister") { raw ->
+            val payload = Json.decodeFromString<UnregisterMessage>(raw)
+            val serverName = payload.serverName
+            val key = "node:$serverName"
+
+            redis.del(key)
+
+            availableNode.find { it.serverInfo.name == serverName }?.let { server ->
+                proxyServer.unregisterServer(server.serverInfo)
+                availableNode.remove(server)
+            }
+
+            logger.info("Unregistered server node $serverName")
         }
 
         // Register listeners
@@ -99,5 +119,9 @@ class EvoriProxy @Inject constructor(
 
     fun registerListener(listener: Any) {
         proxyServer.eventManager.register(this, listener)
+    }
+
+    fun getNode(nodeId: String): RegisteredServer? {
+        return availableNode.find { it.serverInfo.name == nodeId }
     }
 }

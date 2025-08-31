@@ -1,5 +1,6 @@
 package com.ruineko.evori.server.commands.player
 
+import com.ruineko.evori.common.utils.ComponentUtils
 import com.ruineko.evori.server.EvoriServer
 import com.ruineko.evori.server.commands.PlayerCommand
 import com.ruineko.evori.server.extensions.success
@@ -9,10 +10,10 @@ import org.bukkit.entity.Player
 
 class Node(private val plugin: EvoriServer) : PlayerCommand() {
     override fun run(player: Player, command: Command, label: String, args: Array<out String>): Boolean {
-        val nodeId = plugin.redis.nodeId
+        val serverName = plugin.redis.serverName
 
-        if (nodeId != null) {
-            player.success("You are currently on server $nodeId.")
+        if (serverName != null) {
+            player.sendMessage(ComponentUtils.parseString("<aqua>You are currently connected to server <gold>$serverName<aqua>."))
         } else {
             player.warning("This server is running independently (no node ID assigned).")
         }

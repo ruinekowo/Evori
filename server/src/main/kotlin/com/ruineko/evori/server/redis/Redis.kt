@@ -3,6 +3,7 @@ package com.ruineko.evori.server.redis
 import com.ruineko.evori.common.AckMessage
 import com.ruineko.evori.common.RegisterMessage
 import com.ruineko.evori.common.StaffChatMessage
+import com.ruineko.evori.common.extensions.string
 import com.ruineko.evori.common.utils.ComponentUtils
 import com.ruineko.evori.server.EvoriServer
 import kotlinx.serialization.json.Json
@@ -11,9 +12,15 @@ import java.net.InetAddress
 import java.util.*
 
 class Redis(private val plugin: EvoriServer) {
-    var nodeId: String? = null
+    var serverName: String? = null
+
+    lateinit var nodeType: String
+    lateinit var nodeMode: String
 
     fun init() {
+        nodeType = plugin.configNode.string("server.type", "mini")
+        nodeMode = plugin.configNode.string("server.mode", "dynamic")
+
         plugin.redisManager.subscribe("node:sc") { raw ->
             val payload = Json.decodeFromString<StaffChatMessage>(raw)
 
@@ -34,8 +41,8 @@ class Redis(private val plugin: EvoriServer) {
             val payload = Json.decodeFromString<AckMessage>(raw)
 
             if (payload.ip == InetAddress.getLocalHost().hostAddress && payload.port == plugin.server.port) {
-                nodeId = payload.id
-                plugin.logger.info("Got node ID from proxy: $nodeId")
+                serverName = payload.serverName
+                plugin.logger.info("Got server name from proxy: $serverName")
             }
         }
 
@@ -44,13 +51,13 @@ class Redis(private val plugin: EvoriServer) {
 
     fun close() {
         plugin.redisManager.pool.close()
-        plugin.logger.info("Unregistered node $nodeId")
+        plugin.logger.info("Unregistered server node $serverName")
     }
 
     private fun registerServer() {
         val ip = InetAddress.getLocalHost().hostAddress
         val port = plugin.server.port
-        val payload = RegisterMessage(ip, port)
+        val payload = RegisterMessage(ip, port, nodeType, nodeMode)
 
         plugin.redisManager.publish("node:register", Json.encodeToString(payload))
         plugin.logger.info("Sent register request for $ip:$port")

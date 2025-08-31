@@ -5,10 +5,13 @@ import redis.clients.jedis.JedisPool
 import redis.clients.jedis.JedisPubSub
 
 @Serializable
-data class RegisterMessage(val ip: String, val port: Int)
+data class RegisterMessage(val ip: String, val port: Int, val type: String, val mode: String)
 
 @Serializable
-data class AckMessage(val id: String, val ip: String, val port: Int)
+data class UnregisterMessage(val serverName: String)
+
+@Serializable
+data class AckMessage(val serverName: String, val ip: String, val port: Int)
 
 @Serializable
 data class StaffChatMessage(val uuid: String, val node: String?, val message: String)
@@ -40,6 +43,12 @@ class RedisManager(
     fun hset(key: String, map: Map<String, String>) {
         pool.resource.use { jedis ->
             jedis.hset(key, map)
+        }
+    }
+
+    fun del(key: String) {
+        pool.resource.use { jedis ->
+            jedis.del(key)
         }
     }
 
