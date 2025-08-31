@@ -1,10 +1,9 @@
-package com.ruineko.evori.listeners
+package com.ruineko.evori.server.listeners
 
-import com.ruineko.evori.EvoriServer
-import com.ruineko.evori.extensions.messageAll
-import com.ruineko.evori.extensions.warning
-import com.ruineko.evori.objects.EvoriPlayerManager
-import net.kyori.adventure.text.format.NamedTextColor
+import com.ruineko.evori.common.utils.ComponentUtils
+import com.ruineko.evori.server.EvoriServer
+import com.ruineko.evori.server.extensions.messageAll
+import com.ruineko.evori.server.objects.EvoriPlayerManager
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -17,8 +16,7 @@ class PlayerListener(private val plugin: EvoriServer) : Listener {
     fun onJoin(event: PlayerJoinEvent) {
         event.joinMessage(null)
         event.player.sendMessage("") // Empty message to separate chat
-        event.player.warning("This server is currently under heavy development. Issues may arise.")
-        messageAll("${event.player.name} joined.", NamedTextColor.GREEN)
+        messageAll("<yellow>${event.player.name} joined.")
 
         val evoriPlayer = EvoriPlayerManager.get(event.player)
         evoriPlayer.lastJoined = System.currentTimeMillis()
@@ -27,7 +25,7 @@ class PlayerListener(private val plugin: EvoriServer) : Listener {
     @EventHandler
     fun onQuit(event: PlayerQuitEvent) {
         event.quitMessage(null)
-        messageAll("${event.player.name} left.", NamedTextColor.GREEN)
+        messageAll("<yellow>${event.player.name} left.")
 
         EvoriPlayerManager.remove(event.player)
     }

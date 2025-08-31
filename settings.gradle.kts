@@ -1,2 +1,2 @@
 rootProject.name = "Evori"
-include("common", "server", "proxy")
+include("common", "proxy", "server")

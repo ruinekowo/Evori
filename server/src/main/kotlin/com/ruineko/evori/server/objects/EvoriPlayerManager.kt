@@ -1,6 +1,6 @@
-package com.ruineko.evori.objects
+package com.ruineko.evori.server.objects
 
-import com.ruineko.evori.player.EvoriPlayer
+import com.ruineko.evori.server.player.EvoriPlayer
 import org.bukkit.entity.Player
 import java.util.UUID
 

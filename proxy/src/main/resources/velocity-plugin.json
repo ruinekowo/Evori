@@ -2,6 +2,6 @@
   "id": "evori",
   "name": "EvoriProxy",
   "version": "${version}",
-  "main": "com.ruineko.evori.EvoriProxy",
+  "main": "com.ruineko.evori.proxy.EvoriProxy",
   "authors": ["Ruineko"]
 }

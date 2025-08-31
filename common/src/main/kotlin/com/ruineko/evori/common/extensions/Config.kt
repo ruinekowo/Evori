@@ -1,4 +1,4 @@
-package com.ruineko.evori.extensions
+package com.ruineko.evori.common.extensions
 
 import org.spongepowered.configurate.ConfigurationNode
 

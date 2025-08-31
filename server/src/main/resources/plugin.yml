@@ -1,6 +1,6 @@
 name: Evori
 version: '2025.0.0.1'
-main: com.ruineko.evori.EvoriServer
+main: com.ruineko.evori.server.EvoriServer
 api-version: '1.21'
 commands:
   about:

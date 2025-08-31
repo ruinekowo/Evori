@@ -1,9 +1,8 @@
-package com.ruineko.evori.player
+package com.ruineko.evori.server.player
 
-import com.ruineko.evori.player.managers.ActionBarManager
+import com.ruineko.evori.server.player.managers.ActionBarManager
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import org.bukkit.scheduler.BukkitTask
 import java.util.UUID
 
 class EvoriPlayer(val uuid: UUID) {

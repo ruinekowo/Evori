@@ -1,17 +1,20 @@
-package com.ruineko.evori.objects
+package com.ruineko.evori.server.objects
 
-import org.bukkit.plugin.java.JavaPlugin
+import com.ruineko.evori.common.utils.ComponentUtils
+import com.ruineko.evori.server.EvoriServer
 import org.bukkit.scheduler.BukkitRunnable
 
 object GlobalUpdater {
     private var task: BukkitRunnable? = null
 
-    fun start(plugin: JavaPlugin) {
+    fun start(plugin: EvoriServer) {
         if (task != null) return
+        if (plugin.redis.nodeId == null) return
 
         task = object : BukkitRunnable() {
             override fun run() {
                 EvoriPlayerManager.all().forEach {
+                    it.actionBarManager.message = ComponentUtils.parseString("<green>You are currently on node ${plugin.redis.nodeId}")
                     it.actionBarManager.update()
                 }
             }

@@ -1,7 +1,7 @@
-package com.ruineko.evori.commands.player
+package com.ruineko.evori.server.commands.player
 
-import com.ruineko.evori.commands.PlayerCommand
-import com.ruineko.evori.extensions.success
+import com.ruineko.evori.server.commands.PlayerCommand
+import com.ruineko.evori.server.extensions.success
 import org.bukkit.command.Command
 import org.bukkit.entity.Player
 

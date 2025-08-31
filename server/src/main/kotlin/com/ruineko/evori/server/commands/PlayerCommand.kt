@@ -1,6 +1,6 @@
-package com.ruineko.evori.commands
+package com.ruineko.evori.server.commands
 
-import com.ruineko.evori.extensions.severe
+import com.ruineko.evori.server.extensions.severe
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
