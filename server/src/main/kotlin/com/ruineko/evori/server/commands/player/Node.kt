@@ -12,7 +12,7 @@ class Node(private val plugin: EvoriServer) : PlayerCommand() {
         val nodeId = plugin.redis.nodeId
 
         if (nodeId != null) {
-            player.success("You are currently on node $nodeId.")
+            player.success("You are currently on server $nodeId.")
         } else {
             player.warning("This server is running independently (no node ID assigned).")
         }

@@ -65,8 +65,8 @@ class EvoriProxy @Inject constructor(
             logger.info("Registered node $nodeId at ${payload.ip}:${payload.port}")
         }
 
-        // Listeners
-        ServerConnectListener(this)
+        // Register listeners
+        registerListener(ServerConnectListener(this))
 
         logger.info("Proxy enabled!")
     }
@@ -95,5 +95,9 @@ class EvoriProxy @Inject constructor(
         } catch (e: Exception) {
             logger.error(e.message)
         }
+    }
+
+    fun registerListener(listener: Any) {
+        proxyServer.eventManager.register(this, listener)
     }
 }

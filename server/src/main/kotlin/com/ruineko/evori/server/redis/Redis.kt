@@ -26,7 +26,7 @@ class Redis(private val plugin: EvoriServer) {
 
             Bukkit.getOnlinePlayers().forEach { player ->
                 val nodePart = node?.let { "<gray>[$it]</gray> " } ?: ""
-                player.sendMessage(ComponentUtils.parseString("<aqua>[STAFF]</aqua> <yellow>[CHAT]</yellow> <red>$name</red>: $message"))
+                player.sendMessage(ComponentUtils.parseString("<aqua>[STAFF] <yellow>[CHAT] $nodePart<red>$name<white>: $message"))
             }
         }
 

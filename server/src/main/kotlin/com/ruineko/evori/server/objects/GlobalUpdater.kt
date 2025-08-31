@@ -14,7 +14,7 @@ object GlobalUpdater {
         task = object : BukkitRunnable() {
             override fun run() {
                 EvoriPlayerManager.all().forEach {
-                    it.actionBarManager.message = ComponentUtils.parseString("<green>You are currently on node ${plugin.redis.nodeId}")
+                    it.actionBarManager.message = ComponentUtils.parseString("<white>You are currently on server <red>${plugin.redis.nodeId}")
                     it.actionBarManager.update()
                 }
             }
