@@ -10,7 +10,7 @@ import org.bukkit.entity.Player
 
 class Node(private val plugin: EvoriServer) : PlayerCommand() {
     override fun run(player: Player, command: Command, label: String, args: Array<out String>): Boolean {
-        val serverName = plugin.redis.serverName
+        val serverName = plugin.serverName
 
         if (serverName != null) {
             player.sendMessage(ComponentUtils.parseString("<aqua>You are currently connected to server <gold>$serverName<aqua>."))

@@ -1,5 +1,5 @@
 server:
-  type: "mini"
+  type: "server"
   mode: "dynamic"
 redis:
   host: "127.0.0.1"

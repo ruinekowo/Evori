@@ -40,19 +40,17 @@ class EvoriProxy @Inject constructor(
     fun onInit(event: ProxyInitializeEvent) {
         loadConfig()
 
-        redis = RedisManager(configNode.string("redis.host"), configNode.int("redis.port"))
+        redis = RedisManager(configNode.string("redis.host", "127.0.0.1"), configNode.int("redis.port", 6379))
 
         redis.subscribe("node:register") { raw ->
             val payload = Json.decodeFromString<RegisterMessage>(raw)
 
             val index = redis.pool.resource.incr("node:index:${payload.type}")
-            val indexString = index.toString().padStart(2, '0')
-            val serverName = "${payload.type}$indexString"
+            val serverName = "${payload.mode}${payload.type}$index"
 
-            redis.hset(
-                "node:$serverName", mapOf(
+            redis.hset("node:$serverName", mapOf(
                     "serverName" to serverName,
-                    "ip" to payload.ip,
+                    "hostname" to payload.hostname,
                     "port" to payload.port.toString(),
                     "type" to payload.type,
                     "mode" to payload.mode,
@@ -60,41 +58,41 @@ class EvoriProxy @Inject constructor(
                 )
             )
 
-            val serverInfo = ServerInfo(serverName, InetSocketAddress(payload.ip, payload.port))
+            val serverInfo = ServerInfo(serverName, InetSocketAddress(payload.hostname, payload.port))
             val registered = proxyServer.registerServer(serverInfo)
             availableNode.add(registered)
 
-            val ack = AckMessage(serverName, payload.ip, payload.port)
+            val ack = AckMessage(serverName, payload.hostname, payload.port)
             redis.publish("node:ack", Json.encodeToString(ack))
 
-            logger.info("Registered server node $serverName mode ${payload.mode} at ${payload.ip}:${payload.port}")
+            logger.info("Registered node $serverName at ${payload.hostname}:${payload.port}")
         }
 
         redis.subscribe("node:unregister") { raw ->
             val payload = Json.decodeFromString<UnregisterMessage>(raw)
             val serverName = payload.serverName
-            val key = "node:$serverName"
 
-            redis.del(key)
+            redis.del("node:$serverName")
 
             availableNode.find { it.serverInfo.name == serverName }?.let { server ->
                 proxyServer.unregisterServer(server.serverInfo)
                 availableNode.remove(server)
+                redis.pool.resource.del("node:index:${payload.type}")
             }
 
-            logger.info("Unregistered server node $serverName")
+            logger.info("Unregistered node $serverName")
         }
 
         // Register listeners
         registerListener(ServerConnectListener(this))
 
-        logger.info("Proxy enabled!")
+        logger.info("Plugin enabled!")
     }
 
     @Subscribe
     fun onShutDown(event: ProxyShutdownEvent) {
         redis.close()
-        logger.info("Proxy disabled!")
+        logger.info("Plugin disabled!")
     }
 
     fun loadConfig() {

@@ -16,4 +16,4 @@ commands:
     description: Staff chat
   node:
     aliases: [ whereami ]
-    description: Show the name of the server node you are currently on
+    description: Show the name of the server you are currently on

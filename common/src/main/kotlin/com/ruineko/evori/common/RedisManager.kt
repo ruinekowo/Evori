@@ -5,13 +5,13 @@ import redis.clients.jedis.JedisPool
 import redis.clients.jedis.JedisPubSub
 
 @Serializable
-data class RegisterMessage(val ip: String, val port: Int, val type: String, val mode: String)
+data class RegisterMessage(val hostname: String, val port: Int, val type: String, val mode: String)
 
 @Serializable
-data class UnregisterMessage(val serverName: String)
+data class UnregisterMessage(val serverName: String, val type: String)
 
 @Serializable
-data class AckMessage(val serverName: String, val ip: String, val port: Int)
+data class AckMessage(val serverName: String, val hostname: String, val port: Int)
 
 @Serializable
 data class StaffChatMessage(val uuid: String, val node: String?, val message: String)

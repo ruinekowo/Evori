@@ -9,12 +9,13 @@ object GlobalUpdater {
 
     fun start(plugin: EvoriServer) {
         if (task != null) return
-        if (plugin.redis.nodeId == null) return
 
         task = object : BukkitRunnable() {
             override fun run() {
+                if (plugin.serverName == null) return
+
                 EvoriPlayerManager.all().forEach {
-                    it.actionBarManager.message = ComponentUtils.parseString("<white>You are currently on server <red>${plugin.redis.nodeId}")
+                    it.actionBarManager.message = ComponentUtils.parseString("<yellow>You are currently on server <aqua>${plugin.serverName}<yellow>!")
                     it.actionBarManager.update()
                 }
             }

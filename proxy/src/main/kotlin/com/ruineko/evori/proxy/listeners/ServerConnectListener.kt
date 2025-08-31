@@ -8,14 +8,9 @@ import com.velocitypowered.api.event.player.ServerPreConnectEvent
 class ServerConnectListener(private val plugin: EvoriProxy) {
     @Subscribe
     fun onServerPreConnect(event: ServerPreConnectEvent) {
+        if (plugin.availableNode.isEmpty()) return
+
         val player = event.player
-
-        if (plugin.availableNode.isEmpty()) {
-            event.result = ServerPreConnectEvent.ServerResult.denied()
-            player.disconnect(ComponentUtils.parseString("<red>No servers available."))
-            return
-        }
-
         val selectedNode = plugin.availableNode.random()
         event.result = ServerPreConnectEvent.ServerResult.allowed(selectedNode)
         player.sendMessage(ComponentUtils.parseString("<green>Sending you to ${selectedNode.serverInfo.name}!"))

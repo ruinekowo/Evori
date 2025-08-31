@@ -21,6 +21,7 @@ import org.spongepowered.configurate.yaml.YamlConfigurationLoader
 
 class EvoriServer : JavaPlugin() {
     val json = Json { ignoreUnknownKeys = true }
+    var serverName: String? = null
 
     lateinit var configNode: ConfigurationNode
     lateinit var gson: Gson
