@@ -13,7 +13,7 @@ class Node(private val plugin: EvoriServer) : PlayerCommand() {
         val serverName = plugin.serverName
 
         if (serverName != null) {
-            player.sendMessage(ComponentUtils.parseString("<aqua>You are currently connected to server <gold>$serverName<aqua>."))
+            player.sendMessage(ComponentUtils.parse("<aqua>You are currently connected to server <gold>$serverName<aqua>."))
         } else {
             player.warning("This server is running independently (no node ID assigned).")
         }

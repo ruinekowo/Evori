@@ -13,6 +13,6 @@ class ServerConnectListener(private val plugin: EvoriProxy) {
         val player = event.player
         val selectedNode = plugin.availableNode.random()
         event.result = ServerPreConnectEvent.ServerResult.allowed(selectedNode)
-        player.sendMessage(ComponentUtils.parseString("<green>Sending you to ${selectedNode.serverInfo.name}!"))
+        player.sendMessage(ComponentUtils.parse("<green>Sending you to server ${selectedNode.serverInfo.name}!"))
     }
 }

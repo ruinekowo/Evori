@@ -5,17 +5,17 @@ import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 
 fun CommandSender.success(message: String) {
-    sendMessage(ComponentUtils.parseString("<green>$message"))
+    sendMessage(ComponentUtils.parse("<green>$message"))
 }
 
 fun CommandSender.warning(message: String) {
-    sendMessage(ComponentUtils.parseString("<yellow>$message"))
+    sendMessage(ComponentUtils.parse("<yellow>$message"))
 }
 
 fun CommandSender.severe(message: String) {
-    sendMessage(ComponentUtils.parseString("<red>$message"))
+    sendMessage(ComponentUtils.parse("<red>$message"))
 }
 
 fun messageAll(message: String) {
-    Bukkit.getOnlinePlayers().forEach { player -> player.sendMessage(ComponentUtils.parseString(message)) }
+    Bukkit.getOnlinePlayers().forEach { player -> player.sendMessage(ComponentUtils.parse(message)) }
 }

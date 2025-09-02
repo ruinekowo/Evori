@@ -15,7 +15,7 @@ object GlobalUpdater {
                 if (plugin.serverName == null) return
 
                 EvoriPlayerManager.all().forEach {
-                    it.actionBarManager.message = ComponentUtils.parseString("<yellow>You are currently on server <aqua>${plugin.serverName}<yellow>!")
+                    it.actionBarManager.message = ComponentUtils.parse("<yellow>You are currently on server <aqua>${plugin.serverName}<yellow>!")
                     it.actionBarManager.update()
                 }
             }

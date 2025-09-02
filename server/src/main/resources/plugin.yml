@@ -4,6 +4,7 @@ main: com.ruineko.evori.server.EvoriServer
 api-version: '1.21'
 commands:
   about:
+    alias: [ ver, version, icanhasbukkit ]
     description: About the plugin
   fly:
     description: Toggle flight
@@ -17,3 +18,5 @@ commands:
   node:
     aliases: [ whereami ]
     description: Show the name of the server you are currently on
+  reload:
+    description: Reload configurations
