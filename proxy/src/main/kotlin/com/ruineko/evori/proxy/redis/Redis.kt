@@ -3,7 +3,7 @@ package com.ruineko.evori.proxy.redis
 import com.ruineko.evori.common.AckMessage
 import com.ruineko.evori.common.RegisterMessage
 import com.ruineko.evori.common.UnregisterMessage
-import com.ruineko.evori.common.utils.PlaceholderFormatter
+import com.ruineko.evori.common.utils.StringUtils
 import com.ruineko.evori.proxy.EvoriProxy
 import com.velocitypowered.api.proxy.server.ServerInfo
 import kotlinx.serialization.json.Json
@@ -14,7 +14,7 @@ class Redis(private val plugin: EvoriProxy) {
         plugin.redisManager.subscribe("node:register") { raw ->
             val payload = Json.decodeFromString<RegisterMessage>(raw)
 
-            val serverId = PlaceholderFormatter.randomId(6)
+            val serverId = StringUtils.randomId(6)
             val serverName = "${payload.type}$serverId"
 
             plugin.redisManager.hset("node:$serverName", mapOf(
@@ -23,8 +23,7 @@ class Redis(private val plugin: EvoriProxy) {
                 "hostname" to payload.hostname,
                 "port" to payload.port.toString(),
                 "type" to payload.type,
-                "registeredAt" to System.currentTimeMillis().toString()
-            )
+                "registeredAt" to System.currentTimeMillis().toString())
             )
 
             val serverInfo = ServerInfo(serverName, InetSocketAddress(payload.hostname, payload.port))
@@ -54,6 +53,6 @@ class Redis(private val plugin: EvoriProxy) {
     }
 
     fun close() {
-        plugin.redisManager.pool.close()
+        plugin.redisManager.close()
     }
 }

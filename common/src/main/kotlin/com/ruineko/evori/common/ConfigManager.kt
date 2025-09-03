@@ -24,11 +24,41 @@ class ConfigManager(private val file: File) {
     }
 
     fun getString(vararg path: Any, default: String = "undefined"): String {
-        return getNode(*path).string ?: default
+        val node = getNode(*path)
+        val value = node.string
+        if (value == null) {
+            node.set(default)
+            save()
+            return default
+        }
+        return value
     }
 
     fun getInt(vararg path: Any, default: Int = 0): Int {
-        return getNode(*path).int.takeIf { it != 0 } ?: default
+        val node = getNode(*path)
+        val value = node.int
+        if (value == 0 && !node.virtual()) {
+            // If the key exists and its value is 0, it is considered valid
+            // Otherwise, if the key does not exist, then write default
+            return 0
+        }
+        if (node.virtual()) {
+            node.set(default)
+            save()
+        }
+        return value
+    }
+
+    fun getBoolean(vararg path: Any, default: Boolean = false): Boolean {
+        val node = getNode(*path)
+        val value = node.boolean
+        return if (node.virtual()) {
+            node.set(default)
+            save()
+            default
+        } else {
+            value
+        }
     }
 
     fun set(value: Any?, vararg path: Any) {

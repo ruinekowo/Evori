@@ -30,7 +30,7 @@ class Redis(private val plugin: EvoriServer) {
             plugin.logger.info("Sent unregister request for node ${plugin.serverName}")
         }
 
-        plugin.redisManager.pool.close()
+        plugin.redisManager.close()
     }
 
     private fun registerServer() {

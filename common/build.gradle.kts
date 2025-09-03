@@ -4,6 +4,7 @@ plugins {
 }
 
 dependencies {
+    api("org.jetbrains.kotlin:kotlin-reflect:2.2.10")
     api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
     api("net.kyori:adventure-api:4.24.0")
     api("net.kyori:adventure-text-minimessage:4.24.0")

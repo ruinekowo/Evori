@@ -13,7 +13,6 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory
 import com.velocitypowered.api.proxy.ProxyServer
 import com.velocitypowered.api.proxy.server.RegisteredServer
 import org.slf4j.Logger
-import java.io.File
 import java.nio.file.Path
 import javax.inject.Inject
 
