@@ -1,6 +1,7 @@
-package com.ruineko.evori.common
+package com.ruineko.evori.common.config
 
 import org.spongepowered.configurate.ConfigurationNode
+import org.spongepowered.configurate.yaml.NodeStyle
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader
 
 import java.io.File
@@ -15,7 +16,7 @@ class ConfigManager(private val file: File) {
             file.createNewFile()
         }
 
-        loader = YamlConfigurationLoader.builder().file(file).build()
+        loader = YamlConfigurationLoader.builder().file(file).nodeStyle(NodeStyle.BLOCK).build()
         root = loader.load()
     }
 
@@ -26,7 +27,7 @@ class ConfigManager(private val file: File) {
     fun getString(vararg path: Any, default: String = "undefined"): String {
         val node = getNode(*path)
         val value = node.string
-        if (value == null) {
+        if (value.isNullOrEmpty()) {
             node.set(default)
             save()
             return default
@@ -36,15 +37,11 @@ class ConfigManager(private val file: File) {
 
     fun getInt(vararg path: Any, default: Int = 0): Int {
         val node = getNode(*path)
-        val value = node.int
-        if (value == 0 && !node.virtual()) {
-            // If the key exists and its value is 0, it is considered valid
-            // Otherwise, if the key does not exist, then write default
-            return 0
-        }
+        var value = node.int
         if (node.virtual()) {
             node.set(default)
             save()
+            value = default
         }
         return value
     }

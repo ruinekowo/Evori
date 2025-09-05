@@ -7,6 +7,7 @@ plugins {
 dependencies {
     implementation(project(":common"))
     compileOnly("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
+    compileOnly("net.dmulloy2:ProtocolLib:5.4.0")
 }
 
 kotlin {
@@ -24,6 +25,7 @@ tasks {
 
     shadowJar {
         destinationDirectory.set(layout.projectDirectory.dir("../output"))
+        archiveFileName.set("${rootProject.name}Server.jar")
     }
 
     processResources {

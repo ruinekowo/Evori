@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     kotlin("jvm")
     id("com.gradleup.shadow") version "8.3.0"
@@ -25,6 +23,7 @@ tasks {
 
     shadowJar {
         destinationDirectory.set(layout.projectDirectory.dir("../output"))
+        archiveFileName.set("${rootProject.name}Proxy.jar")
     }
 
     processResources {

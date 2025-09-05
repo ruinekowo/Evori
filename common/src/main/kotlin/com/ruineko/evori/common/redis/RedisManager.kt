@@ -1,4 +1,4 @@
-package com.ruineko.evori.common
+package com.ruineko.evori.common.redis
 
 import kotlinx.serialization.Serializable
 import redis.clients.jedis.JedisPool

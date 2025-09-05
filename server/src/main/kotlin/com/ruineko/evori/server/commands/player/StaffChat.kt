@@ -1,6 +1,6 @@
 package com.ruineko.evori.server.commands.player
 
-import com.ruineko.evori.common.StaffChatMessage
+import com.ruineko.evori.common.redis.StaffChatMessage
 import com.ruineko.evori.server.EvoriServer
 import com.ruineko.evori.server.commands.PlayerCommand
 import org.bukkit.command.Command

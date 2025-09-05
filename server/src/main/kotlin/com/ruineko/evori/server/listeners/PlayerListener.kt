@@ -18,7 +18,7 @@ class PlayerListener(private val plugin: EvoriServer) : Listener {
         event.player.sendMessage("") // Empty message to separate chat
         messageAll("<yellow>${event.player.name} joined.")
 
-        val evoriPlayer = EvoriPlayerManager.get(event.player)
+        val evoriPlayer = EvoriPlayerManager.get(event.player.uniqueId)
         evoriPlayer.lastJoined = System.currentTimeMillis()
     }
 

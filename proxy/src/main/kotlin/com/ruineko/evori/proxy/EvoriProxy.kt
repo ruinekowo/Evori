@@ -1,7 +1,7 @@
 package com.ruineko.evori.proxy
 
-import com.ruineko.evori.common.ConfigManager
-import com.ruineko.evori.common.RedisManager
+import com.ruineko.evori.common.config.ConfigManager
+import com.ruineko.evori.common.redis.RedisManager
 import com.ruineko.evori.proxy.config.ProxyConfig
 import com.ruineko.evori.proxy.listeners.ServerConnectListener
 import com.ruineko.evori.proxy.redis.Redis

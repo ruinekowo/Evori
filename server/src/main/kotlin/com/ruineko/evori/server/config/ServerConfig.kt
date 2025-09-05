@@ -1,6 +1,6 @@
 package com.ruineko.evori.server.config
 
-import com.ruineko.evori.common.Config
+import com.ruineko.evori.common.config.Config
 
 object ServerConfig: Config() {
     val SERVER_HOSTNAME: String

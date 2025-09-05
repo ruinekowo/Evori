@@ -1,6 +1,5 @@
 package com.ruineko.evori.server.objects
 
-import com.ruineko.evori.common.utils.ComponentUtils
 import com.ruineko.evori.server.EvoriServer
 import org.bukkit.scheduler.BukkitRunnable
 
@@ -15,7 +14,6 @@ object GlobalUpdater {
                 if (plugin.serverName == null) return
 
                 EvoriPlayerManager.all().forEach {
-                    it.actionBarManager.message = ComponentUtils.parse("<yellow>You are currently on server <aqua>${plugin.serverName}<yellow>!")
                     it.actionBarManager.update()
                 }
             }

@@ -1,8 +1,8 @@
 package com.ruineko.evori.proxy.redis
 
-import com.ruineko.evori.common.AckMessage
-import com.ruineko.evori.common.RegisterMessage
-import com.ruineko.evori.common.UnregisterMessage
+import com.ruineko.evori.common.redis.AckMessage
+import com.ruineko.evori.common.redis.RegisterMessage
+import com.ruineko.evori.common.redis.UnregisterMessage
 import com.ruineko.evori.common.utils.StringUtils
 import com.ruineko.evori.proxy.EvoriProxy
 import com.velocitypowered.api.proxy.server.ServerInfo

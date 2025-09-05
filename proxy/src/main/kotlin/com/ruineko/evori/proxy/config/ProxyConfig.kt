@@ -1,6 +1,6 @@
 package com.ruineko.evori.proxy.config
 
-import com.ruineko.evori.common.Config
+import com.ruineko.evori.common.config.Config
 
 object ProxyConfig: Config() {
     val REDIS_HOSTNAME: String

@@ -2,6 +2,8 @@ name: Evori
 version: '2025.0.0.1'
 main: com.ruineko.evori.server.EvoriServer
 api-version: '1.21'
+softdepend:
+  - ProtocolLib
 commands:
   about:
     alias: [ ver, version, icanhasbukkit ]
@@ -15,6 +17,9 @@ commands:
   staffchat:
     aliases: [ sc ]
     description: Staff chat
+  vanish:
+    aliases: [ v ]
+    description: Now you see me, now you don't
   node:
     aliases: [ whereami ]
     description: Show the name of the server you are currently on

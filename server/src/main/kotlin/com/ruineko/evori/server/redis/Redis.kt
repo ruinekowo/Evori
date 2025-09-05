@@ -1,9 +1,9 @@
 package com.ruineko.evori.server.redis
 
-import com.ruineko.evori.common.AckMessage
-import com.ruineko.evori.common.RegisterMessage
-import com.ruineko.evori.common.StaffChatMessage
-import com.ruineko.evori.common.UnregisterMessage
+import com.ruineko.evori.common.redis.AckMessage
+import com.ruineko.evori.common.redis.RegisterMessage
+import com.ruineko.evori.common.redis.StaffChatMessage
+import com.ruineko.evori.common.redis.UnregisterMessage
 import com.ruineko.evori.common.utils.ComponentUtils
 import com.ruineko.evori.server.EvoriServer
 import com.ruineko.evori.server.config.ServerConfig
