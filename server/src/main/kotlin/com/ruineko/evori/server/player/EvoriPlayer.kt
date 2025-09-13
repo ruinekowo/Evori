@@ -5,18 +5,42 @@ import com.comphenix.protocol.ProtocolLibrary
 import com.ruineko.evori.server.EvoriServer
 import com.ruineko.evori.server.player.managers.ActionBarManager
 import org.bukkit.Bukkit
+import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import java.util.UUID
 
-class EvoriPlayer(private val plugin: EvoriServer, val uuid: UUID) {
+class EvoriPlayer(val uuid: UUID) {
     val actionBarManager = ActionBarManager(this)
 
     var lastJoined: Long = 0
     var isVanished: Boolean = false
+    var maxStackHeight: Int = 1
 
     fun base(): Player? = Bukkit.getPlayer(uuid)
 
-    fun vanish() {
+    fun mount(target: EvoriPlayer, maxHeight: Int, onLimitReached: () -> Unit) {
+        var current = base() as Entity
+        var height = 0
+
+        while (current.passengers.isNotEmpty()) {
+            current = current.passengers[0]
+            height++
+        }
+
+        if (height <= maxHeight) {
+            target.base()?.addPassenger(current)
+        } else {
+            onLimitReached()
+        }
+    }
+
+    fun unmount() {
+        val player = base() ?: return
+        val passenger = player.passengers.firstOrNull() as? Player ?: return
+        player.removePassenger(passenger)
+    }
+
+    fun disappear(plugin: EvoriServer) {
         val self = base() ?: return
         isVanished = true
 
@@ -33,7 +57,7 @@ class EvoriPlayer(private val plugin: EvoriServer, val uuid: UUID) {
         }
     }
 
-    fun appear() {
+    fun reappear(plugin: EvoriServer) {
         val self = base() ?: return
         isVanished = false
 

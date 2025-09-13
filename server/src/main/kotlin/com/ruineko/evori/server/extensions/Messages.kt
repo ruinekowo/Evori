@@ -12,7 +12,7 @@ fun CommandSender.warning(message: String) {
     sendMessage(ComponentUtils.parse("<yellow>$message"))
 }
 
-fun CommandSender.severe(message: String) {
+fun CommandSender.error(message: String) {
     sendMessage(ComponentUtils.parse("<red>$message"))
 }
 

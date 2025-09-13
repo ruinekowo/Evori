@@ -1,6 +1,6 @@
 package com.ruineko.evori.server.commands
 
-import com.ruineko.evori.server.extensions.severe
+import com.ruineko.evori.server.extensions.error
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -11,7 +11,7 @@ abstract class PlayerCommand : CommandExecutor {
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (sender !is Player) {
-            sender.severe("This command can only be used by a player.")
+            sender.error("This command can only be used by a player.")
             return true
         }
 

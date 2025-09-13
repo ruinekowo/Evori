@@ -15,6 +15,7 @@ import com.ruineko.evori.server.config.ChatConfig
 import com.ruineko.evori.server.config.MessageConfig
 import com.ruineko.evori.server.config.ServerConfig
 import com.ruineko.evori.server.listeners.ChatListener
+import com.ruineko.evori.server.listeners.InteractListener
 import com.ruineko.evori.server.listeners.PlayerListener
 import com.ruineko.evori.server.listeners.VanishPacketListener
 import com.ruineko.evori.server.objects.EvoriPlayerManager
@@ -39,7 +40,14 @@ class EvoriServer : JavaPlugin() {
     lateinit var redisManager: RedisManager
     lateinit var redis: Redis
 
+    companion object {
+        lateinit var instance: EvoriServer
+            private set
+    }
+
     override fun onEnable() {
+        instance = this
+
         loadConfigurations()
         gson = Gson()
 
@@ -67,6 +75,7 @@ class EvoriServer : JavaPlugin() {
 
         logger.info("Registering listeners")
         registerListener(ChatListener())
+        registerListener(InteractListener())
         registerListener(PlayerListener(this))
 
         if (protocolLibAvailable) {
@@ -75,13 +84,13 @@ class EvoriServer : JavaPlugin() {
             protocolManager.addPacketListener(VanishPacketListener(this))
         }
 
-        logger.info(MessageConfig.PLUGIN_ENABLE)
+        logger.info(MessageConfig.PLUGIN_ENABLED)
     }
 
     override fun onDisable() {
         GlobalUpdater.stop()
         redis.close()
-        logger.info(MessageConfig.PLUGIN_DISABLE)
+        logger.info(MessageConfig.PLUGIN_DISABLED)
     }
 
     fun unregisterCommand(vararg commands: String) {
