@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.ruineko.evori.common.redis.RedisManager
 import com.ruineko.evori.common.config.ConfigManager
 import com.ruineko.evori.server.commands.admin.Reload
+import com.ruineko.evori.server.commands.admin.Uptime
 import com.ruineko.evori.server.commands.player.About
 import com.ruineko.evori.server.commands.player.Fly
 import com.ruineko.evori.server.commands.player.Kaboom
@@ -16,6 +17,7 @@ import com.ruineko.evori.server.config.MessageConfig
 import com.ruineko.evori.server.config.ServerConfig
 import com.ruineko.evori.server.listeners.ChatListener
 import com.ruineko.evori.server.listeners.InteractListener
+import com.ruineko.evori.server.listeners.MovementListeners
 import com.ruineko.evori.server.listeners.PlayerListener
 import com.ruineko.evori.server.listeners.VanishPacketListener
 import com.ruineko.evori.server.objects.EvoriPlayerManager
@@ -72,10 +74,12 @@ class EvoriServer : JavaPlugin() {
 
         // Admin commands
         registerCommand("reload", Reload(this))
+        registerCommand("uptime", Uptime(this))
 
         logger.info("Registering listeners")
         registerListener(ChatListener())
         registerListener(InteractListener())
+        registerListener(MovementListeners())
         registerListener(PlayerListener(this))
 
         if (protocolLibAvailable) {

@@ -15,7 +15,7 @@ abstract class StaffCommand(private val permission: String) : CommandExecutor {
             return true
         }
 
-        if (!sender.hasPermission(permission)) {
+        if (!sender.hasPermission("evori.$permission")) {
             sender.sendMessage("You don't have permission to perform this command!")
             return true
         }

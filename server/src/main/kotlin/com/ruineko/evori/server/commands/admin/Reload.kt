@@ -6,7 +6,7 @@ import com.ruineko.evori.server.extensions.success
 import org.bukkit.command.Command
 import org.bukkit.entity.Player
 
-class Reload(private val plugin: EvoriServer): StaffCommand("evori.reload") {
+class Reload(private val plugin: EvoriServer): StaffCommand("reload") {
     override fun run(player: Player, command: Command, label: String, args: Array<out String>): Boolean {
         plugin.reloadConfigurations()
         player.success("Reloaded configurations!")

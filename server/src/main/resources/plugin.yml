@@ -25,3 +25,5 @@ commands:
     description: Show the name of the server you are currently on
   reload:
     description: Reload configurations
+  uptime:
+    description: Server uptime

@@ -15,8 +15,10 @@ class InteractListener: Listener {
         val player = event.player
         val evoriPlayer = EvoriPlayerManager.get(player.uniqueId)
 
-        evoriPlayer.mount(EvoriPlayerManager.get(rightClicked.uniqueId), evoriPlayer.maxStackHeight) {
-            player.error(MessageConfig.MOUNT_LIMIT_REACHED)
+        if (!rightClicked.isSneaking) {
+            evoriPlayer.mount(EvoriPlayerManager.get(rightClicked.uniqueId), evoriPlayer.maxStackHeight) {
+                player.error(MessageConfig.MOUNT_LIMIT_REACHED)
+            }
         }
     }
 }
